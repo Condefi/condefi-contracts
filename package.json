@@ -5,6 +5,11 @@
   "repository": "https://github.com/Condefi/condefi-contracts.git",
   "author": "Niraj Kamdar <nirajkamdar27@pm.me>",
   "license": "MIT",
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat ignition deploy ./ignition/modules/TreasuryFactory.ts"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
@@ -20,6 +25,7 @@
     "@types/mocha": ">=9.1.0",
     "@types/node": ">=18.0.0",
     "chai": "^4.2.0",
+    "dotenv": "^16.4.5",
     "ethers": "^6.4.0",
     "hardhat": "^2.22.15",
     "hardhat-gas-reporter": "^1.0.8",
