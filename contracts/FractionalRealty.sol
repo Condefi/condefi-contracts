@@ -156,16 +156,16 @@ contract FractionalRealty is
     ) external {
         require(kintoID.isKYC(msg.sender), "Must be KYC'd");
         require(
+            kintoID.isSanctionsSafeIn(msg.sender, _countryCode),
+            "Not sanctions-safe"
+        );
+        require(
             attester.verifyTitleDeedOwnership(
                 _businessIdHash,
                 _titleDeedHash,
                 msg.sender
             ),
             "Invalid title deed ownership"
-        );
-        require(
-            kintoID.isSanctionsSafeIn(msg.sender, _countryCode),
-            "Not sanctions-safe"
         );
         require(
             attester.ownerOf(_titleDeedHash) == msg.sender,

@@ -29,4 +29,6 @@ contract MockKintoID {
     function isCompany(address user) external view returns (bool) {
         return companyStatus[user];
     }
+
+    receive() external payable {}
 }

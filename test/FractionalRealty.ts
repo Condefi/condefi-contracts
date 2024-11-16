@@ -131,16 +131,6 @@ describe("FractionalRealty", function () {
       tokenData.erc20Token
     );
 
-    // Grant necessary roles for the test
-    await erc20Token.grantRole(
-      await erc20Token.DEFAULT_ADMIN_ROLE(),
-      base.owner.address
-    );
-    await erc20Token.grantRole(
-      await erc20Token.MINTER_ROLE(),
-      base.fractionalRealty.target
-    );
-
     return {
       ...base,
       tokenId: 1,
@@ -171,7 +161,7 @@ describe("FractionalRealty", function () {
     });
   });
 
-  describe("Minting", function () {
+  describe("Minting Succeed", function() {
     it("Should mint token with correct data", async function () {
       const {
         fractionalRealty,
@@ -225,103 +215,89 @@ describe("FractionalRealty", function () {
       expect(await erc20Token.hasRole(minterRole, fractionalRealty.target)).to
         .be.true;
     });
+  });
 
-    it("Should revert if user is not sanctions-safe", async function () {
-      const {
-        fractionalRealty,
-        countryCode,
-        titleDeedHash,
-        businessIdHash,
-        user2,
-      } = await loadFixture(deployFixture);
+  describe("Minting Failure", function() {
+    describe("KYC and Sanctions checks", function() {
+      it("Should revert if user is not KYC'd", async function() {
+        const {
+          fractionalRealty,
+          countryCode,
+          titleDeedHash,
+          businessIdHash,
+          user2,
+          mockKintoID
+        } = await loadFixture(deployFixture);
+        
+        // Ensure user2 has sanctions but no KYC
+        await mockKintoID.setKYC(user2.address, false);
+        await mockKintoID.setSanctionsStatus(user2.address, countryCode, true);
+        
+        await expect(
+          fractionalRealty
+            .connect(user2)
+            .mint(countryCode, titleDeedHash, businessIdHash)
+        ).to.be.revertedWith("Must be KYC'd");
+      });
 
-      await expect(
-        fractionalRealty
-          .connect(user2)
-          .mint(countryCode, titleDeedHash, businessIdHash)
-      ).to.be.revertedWith("Invalid title deed ownership");
+      it("Should revert if user is not sanctions-safe", async function () {
+        const {
+          fractionalRealty,
+          countryCode,
+          titleDeedHash,
+          businessIdHash,
+          user2,
+          mockKintoID
+        } = await loadFixture(deployFixture);
+        
+        // Ensure user2 has KYC but no sanctions clearance
+        await mockKintoID.setKYC(user2.address, true);
+        await mockKintoID.setSanctionsStatus(user2.address, countryCode, false);
+
+        await expect(
+          fractionalRealty
+            .connect(user2)
+            .mint(countryCode, titleDeedHash, businessIdHash)
+        ).to.be.revertedWith("Not sanctions-safe");
+      });
     });
 
-    it("Should revert if user is not sanctions-safe", async function () {
-      const {
-        fractionalRealty,
-        countryCode,
-        titleDeedHash,
-        businessIdHash,
-        user2,
-      } = await loadFixture(deployFixture);
+    describe("Title deed checks", function() {
+      it("Should revert if wrong title deed hash", async function () {
+        const { fractionalRealty, countryCode, user1 } = await loadFixture(
+          deployFixture
+        );
 
-      await expect(
-        fractionalRealty
-          .connect(user2)
-          .mint(countryCode, titleDeedHash, businessIdHash)
-      ).to.be.revertedWith("Not sanctions-safe");
-    });
+        const wrongTitleDeedHash = ethers.keccak256(ethers.toUtf8Bytes("wrong"));
+        const wrongBusinessIdHash = ethers.keccak256(ethers.toUtf8Bytes("wrong"));
 
-    it("Should revert if wrong title deed hash", async function () {
-      const { fractionalRealty, countryCode, user1 } = await loadFixture(
-        deployFixture
-      );
+        await expect(
+          fractionalRealty
+            .connect(user1)
+            .mint(countryCode, wrongTitleDeedHash, wrongBusinessIdHash)
+        ).to.be.revertedWith("Invalid title deed ownership");
+      });
 
-      const wrongTitleDeedHash = ethers.keccak256(ethers.toUtf8Bytes("wrong"));
-      const wrongBusinessIdHash = ethers.keccak256(ethers.toUtf8Bytes("wrong"));
+      it("Should revert if not title deed owner", async function() {
+        const { 
+          fractionalRealty, 
+          countryCode, 
+          titleDeedHash, 
+          businessIdHash,
+          user2, 
+          mockKintoID
+        } = await loadFixture(deployFixture);
+        
+        // Set up user2 with KYC and sanctions but no deed ownership
+        await mockKintoID.setKYC(user2.address, true);
+        await mockKintoID.setSanctionsStatus(user2.address, countryCode, true);
 
-      await expect(
-        fractionalRealty
-          .connect(user1)
-          .mint(countryCode, wrongTitleDeedHash, wrongBusinessIdHash)
-      ).to.be.revertedWith("Invalid title deed ownership");
-    });
-
-    it("Should revert for wrong country sanctions check", async function () {
-      const {
-        fractionalRealty,
-        countryCode,
-        titleDeedHash,
-        businessIdHash,
-        user3,
-      } = await loadFixture(deployFixture);
-
-      await expect(
-        fractionalRealty
-          .connect(user3)
-          .mint(countryCode, titleDeedHash, businessIdHash)
-      ).to.be.revertedWith("Not sanctions-safe");
-    });
-
-    it("Should revert if user is not sanctions-safe", async function () {
-      const {
-        fractionalRealty,
-        countryCode,
-        titleDeedHash,
-        businessIdHash,
-        user2,
-      } = await loadFixture(deployFixture);
-
-      await expect(
-        fractionalRealty
-          .connect(user2)
-          .mint(countryCode, titleDeedHash, businessIdHash)
-      ).to.be.revertedWithCustomError(
-        fractionalRealty,
-        "AccessControlUnauthorizedAccount"
-      );
-    });
-
-    it("Should revert if wrong country sanctions check", async function () {
-      const {
-        fractionalRealty,
-        countryCode,
-        titleDeedHash,
-        businessIdHash,
-        user3,
-      } = await loadFixture(deployFixture);
-
-      await expect(
-        fractionalRealty
-          .connect(user3)
-          .mint(countryCode, titleDeedHash, businessIdHash)
-      ).to.be.revertedWith("Invalid title deed ownership");
+        await expect(
+          fractionalRealty
+            .connect(user2)
+            .mint(countryCode, titleDeedHash, businessIdHash)
+        ).to.be.revertedWith("Invalid title deed ownership");
+      });
     });
   });
 
@@ -456,7 +432,7 @@ describe("FractionalRealty", function () {
       });
 
       it("Should only allow token owner to request burn", async function () {
-        const { fractionalRealty, user2, tokenId, amount } = await loadFixture(
+        const { fractionalRealty, user1, user2, tokenId, amount } = await loadFixture(
           mintedERC20Fixture
         );
 
@@ -512,7 +488,7 @@ describe("FractionalRealty", function () {
         // Request another burn with different amount
         await fractionalRealty
           .connect(user1)
-          .requestBurnERC20(tokenId, user1.address, amount.div(2));
+          .requestBurnERC20(tokenId, user1.address, amount / BigInt(2));
 
         await time.increase(7 * 24 * 60 * 60 + 1);
         await expect(
@@ -521,7 +497,7 @@ describe("FractionalRealty", function () {
             .executeBurnERC20(tokenId, user1.address)
         )
           .to.emit(fractionalRealty, "ERC20Burned")
-          .withArgs(tokenId, user1.address, amount.div(2));
+          .withArgs(tokenId, user1.address, amount / BigInt(2));
       });
     });
   });
@@ -630,9 +606,10 @@ describe("FractionalRealty", function () {
           .to.emit(fractionalRealty, "Transfer")
           .withArgs(user1.address, ethers.ZeroAddress, tokenId);
 
-        await expect(fractionalRealty.ownerOf(tokenId)).to.be.revertedWith(
-          "ERC721: invalid token ID"
-        );
+          await expect(fractionalRealty.ownerOf(tokenId)).to.be.revertedWithCustomError(
+            fractionalRealty,
+            "ERC721NonexistentToken(uint256)"
+          ).withArgs(tokenId);
       });
 
       it("Should not allow burning with ERC20 supply", async function () {
@@ -757,9 +734,10 @@ describe("FractionalRealty", function () {
 
       // Burn NFT
       await fractionalRealty.connect(user1).burn(tokenId);
-      await expect(fractionalRealty.ownerOf(tokenId)).to.be.revertedWith(
-        "ERC721: invalid token ID"
-      );
+      await expect(fractionalRealty.ownerOf(tokenId)).to.be.revertedWithCustomError(
+        fractionalRealty,
+        "ERC721NonexistentToken(uint256)"
+      ).withArgs(tokenId);
     });
   });
 });
