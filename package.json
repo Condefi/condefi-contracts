@@ -8,7 +8,15 @@
   "scripts": {
     "build": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "hardhat ignition deploy ./ignition/modules/TreasuryFactory.ts"
+    "deploy:fund": "yarn deploy:fund:base && yarn deploy:fund:mantle && yarn deploy:fund:scroll",
+    "deploy:fund:base": "hardhat ignition deploy ./ignition/modules/MockTreasuryFactory.ts --network base",
+    "deploy:fund:mantle": "hardhat ignition deploy ./ignition/modules/MockTreasuryFactory.ts --network mantle",
+    "deploy:fund:scroll": "hardhat ignition deploy ./ignition/modules/MockTreasuryFactory.ts --network scroll",
+    "deploy:usd": "yarn deploy:usd:base && yarn deploy:usd:mantle && yarn deploy:usd:scroll",
+    "deploy:usd:base": "hardhat ignition deploy ./ignition/modules/MockERC20.ts --network base",
+    "deploy:usd:mantle": "hardhat ignition deploy ./ignition/modules/MockERC20.ts --network mantle",
+    "deploy:usd:scroll": "hardhat ignition deploy ./ignition/modules/MockERC20.ts --network scroll",
+    "deploy:frt": "hardhat ignition deploy ./ignition/modules/FractionalRealty.ts --network kinto"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
