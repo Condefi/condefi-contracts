@@ -1,9 +1,16 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 const Frac = buildModule("FractionalRealtyModule", (m) => {
-  const frac = m.contract("FractionalRealty");
+  // Deploy MockAttester first
+  const mockAttester = m.contract("MockAttester");
+
+  // Deploy FractionalRealty with MockAttester address as constructor argument
+  const frac = m.contract("FractionalRealty", [mockAttester]);
   
-  return { frac };
+  return { 
+    mockAttester,
+    frac 
+  };
 });
 
 export default Frac;

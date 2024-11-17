@@ -41,6 +41,48 @@ const config: HardhatUserConfig = {
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     }
   },
+  etherscan: {
+    apiKey: {
+      'kinto': 'empty',
+      'base': 'empty',
+      'mantle': 'empty',
+      'scroll': 'empty'
+    },
+    customChains: [
+      {
+        network: "kinto",
+        chainId: 7887,
+        urls: {
+          apiURL: "https://explorer.kinto.xyz/api",
+          browserURL: "https://explorer.kinto.xyz"
+        }
+      },
+      {
+        network: "base",
+        chainId: 84532,
+        urls: {
+          apiURL: "https://base-sepolia.blockscout.com/api",
+          browserURL: "https://base-sepolia.blockscout.com/"
+        }
+      },
+      {
+        network: "mantle",
+        chainId: 5003,
+        urls: {
+          apiURL: "https://explorer.mantle.xyz/api",
+          browserURL: "https://explorer.mantle.xyz/"
+        }
+      },
+      {
+        network: "scroll",
+        chainId: 534351,
+        urls: {
+          apiURL: "https://sepolia.scrollscan.com/api",
+          browserURL: "https://sepolia.scrollscan.com/"
+        }
+      },
+    ]
+  }
 };
 
 export default config;

@@ -1,0 +1,6 @@
+{
+  "LDTModule#MockERC20": "0x2A8b09C5e313b22c2A53E68EfC58D389524692D6",
+  "FractionalRealtyModule#MockAttester": "0x3A79C75c6466a56BDAa0f986B27F868E6b967d29",
+  "FractionalRealtyModule#FractionalRealty": "0x1CF529F95b5150771Dc9270fD8aaaA3D3d2b5e6C",
+  "TreasuryFactoryModule#MockTreasuryFactory": "0x42e599B6B9ebB09d760CE249845376114766FE80"
+}

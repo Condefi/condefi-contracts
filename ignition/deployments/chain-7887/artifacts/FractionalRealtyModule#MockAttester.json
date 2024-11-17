@@ -1,0 +1,308 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "MockAttester",
+  "sourceName": "contracts/MockAttester.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "attester",
+          "type": "address"
+        }
+      ],
+      "name": "AttesterAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "attester",
+          "type": "address"
+        }
+      ],
+      "name": "AttesterRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "titleDeedHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "businessIdHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "TitleDeedAttested",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "attester",
+          "type": "address"
+        }
+      ],
+      "name": "addAttester",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "businessIdHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "titleDeedHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "attestTitleDeedOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "attesters",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "businessToTitleDeed",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "kintoID",
+      "outputs": [
+        {
+          "internalType": "contract IKintoID",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "titleDeedHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "attester",
+          "type": "address"
+        }
+      ],
+      "name": "removeAttester",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "titleDeedOwners",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "businessIdHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "titleDeedHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "verifyTitleDeedOwnership",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608080604052346075573315605f5760008054336001600160a01b0319821681178355916001600160a01b03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a361065b908161007b8239f35b631e4fbdf760e01b600052600060045260246000fd5b600080fdfe6080604052600436101561001257600080fd5b60003560e01c806302bef8471461057a5780630dc04b0014610521578063131a91ad146104e2578063715018a6146104895780637201d820146102ce5780637dd564111461024c5780638da5cb5b1461022357806399a6cddd146101f4578063a222c64d146101c8578063a5d8eac914610194578063cc78fef11461012e5763f2fde38b146100a057600080fd5b34610129576020366003190112610129576100b96105e5565b6100c1610625565b6001600160a01b0316801561011357600080546001600160a01b03198116831782556001600160a01b0316907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a3005b631e4fbdf760e01b600052600060045260246000fd5b600080fd5b34610129576020366003190112610129576101476105e5565b61014f610625565b6001600160a01b03166000818152600160205260408120805460ff191690557f368846ed588a2fb12b4fabffde520ad537df26ea80ad789b60afc37c5cc7fe6b9080a2005b34610129576020366003190112610129576004356000526003602052602060018060a01b0360406000205416604051908152f35b346101295760203660031901126101295760043560005260026020526020604060002054604051908152f35b3461012957600036600319011261012957602060405173f369f78e3a0492cc4e96a90dae0728a38498e9c78152f35b34610129576000366003190112610129576000546040516001600160a01b039091168152602090f35b34610129576020366003190112610129576004356000908152600360205260409020546001600160a01b0316801561028957602090604051908152f35b60405162461bcd60e51b815260206004820152601760248201527f5469746c652064656564206e6f742061747465737465640000000000000000006044820152606490fd5b34610129576102dc366105fb565b919033600052600160205260ff6040600020541615610452576040516313289ea360e31b81526001600160a01b03909316600484018190529260208160248173f369f78e3a0492cc4e96a90dae0728a38498e9c75afa908115610446576000916103da575b50156103a357816000526002602052806040600020558060005260036020526040600020836bffffffffffffffffffffffff60a01b8254161790557ff89b902ade953c1609f9b09ff5360fa763ee26d3bc82dc20bddbbdfc1ffda7ea600080a4005b60405162461bcd60e51b815260206004820152600f60248201526e13dddb995c881b9bdd0812d650c9d9608a1b6044820152606490fd5b60203d60201161043f575b601f8101601f1916820167ffffffffffffffff81118382101761042b576020918391604052810103126104275751908115158203610424575084610341565b80fd5b5080fd5b634e487b7160e01b84526041600452602484fd5b503d6103e5565b6040513d6000823e3d90fd5b60405162461bcd60e51b815260206004820152600f60248201526e2737ba1030b71030ba3a32b9ba32b960891b6044820152606490fd5b34610129576000366003190112610129576104a2610625565b600080546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b34610129576020366003190112610129576001600160a01b036105036105e5565b166000526001602052602060ff604060002054166040519015158152f35b34610129576020610531366105fb565b90916000526002835281604060002054149182610555575b50506040519015158152f35b60009081526003845260409020546001600160a01b0391821691161490508280610549565b34610129576020366003190112610129576105936105e5565b61059b610625565b6001600160a01b031660008181526001602081905260408220805460ff191690911790557f6ba7a3f25b8b53ecc6d1367a381fde6e7bd6ae793acb6b3f4726c425fc0caec79080a2005b600435906001600160a01b038216820361012957565b60609060031901126101295760043590602435906044356001600160a01b03811681036101295790565b6000546001600160a01b0316330361063957565b63118cdaa760e01b6000523360045260246000fdfea164736f6c634300081b000a",
+  "deployedBytecode": "0x6080604052600436101561001257600080fd5b60003560e01c806302bef8471461057a5780630dc04b0014610521578063131a91ad146104e2578063715018a6146104895780637201d820146102ce5780637dd564111461024c5780638da5cb5b1461022357806399a6cddd146101f4578063a222c64d146101c8578063a5d8eac914610194578063cc78fef11461012e5763f2fde38b146100a057600080fd5b34610129576020366003190112610129576100b96105e5565b6100c1610625565b6001600160a01b0316801561011357600080546001600160a01b03198116831782556001600160a01b0316907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a3005b631e4fbdf760e01b600052600060045260246000fd5b600080fd5b34610129576020366003190112610129576101476105e5565b61014f610625565b6001600160a01b03166000818152600160205260408120805460ff191690557f368846ed588a2fb12b4fabffde520ad537df26ea80ad789b60afc37c5cc7fe6b9080a2005b34610129576020366003190112610129576004356000526003602052602060018060a01b0360406000205416604051908152f35b346101295760203660031901126101295760043560005260026020526020604060002054604051908152f35b3461012957600036600319011261012957602060405173f369f78e3a0492cc4e96a90dae0728a38498e9c78152f35b34610129576000366003190112610129576000546040516001600160a01b039091168152602090f35b34610129576020366003190112610129576004356000908152600360205260409020546001600160a01b0316801561028957602090604051908152f35b60405162461bcd60e51b815260206004820152601760248201527f5469746c652064656564206e6f742061747465737465640000000000000000006044820152606490fd5b34610129576102dc366105fb565b919033600052600160205260ff6040600020541615610452576040516313289ea360e31b81526001600160a01b03909316600484018190529260208160248173f369f78e3a0492cc4e96a90dae0728a38498e9c75afa908115610446576000916103da575b50156103a357816000526002602052806040600020558060005260036020526040600020836bffffffffffffffffffffffff60a01b8254161790557ff89b902ade953c1609f9b09ff5360fa763ee26d3bc82dc20bddbbdfc1ffda7ea600080a4005b60405162461bcd60e51b815260206004820152600f60248201526e13dddb995c881b9bdd0812d650c9d9608a1b6044820152606490fd5b60203d60201161043f575b601f8101601f1916820167ffffffffffffffff81118382101761042b576020918391604052810103126104275751908115158203610424575084610341565b80fd5b5080fd5b634e487b7160e01b84526041600452602484fd5b503d6103e5565b6040513d6000823e3d90fd5b60405162461bcd60e51b815260206004820152600f60248201526e2737ba1030b71030ba3a32b9ba32b960891b6044820152606490fd5b34610129576000366003190112610129576104a2610625565b600080546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b34610129576020366003190112610129576001600160a01b036105036105e5565b166000526001602052602060ff604060002054166040519015158152f35b34610129576020610531366105fb565b90916000526002835281604060002054149182610555575b50506040519015158152f35b60009081526003845260409020546001600160a01b0391821691161490508280610549565b34610129576020366003190112610129576105936105e5565b61059b610625565b6001600160a01b031660008181526001602081905260408220805460ff191690911790557f6ba7a3f25b8b53ecc6d1367a381fde6e7bd6ae793acb6b3f4726c425fc0caec79080a2005b600435906001600160a01b038216820361012957565b60609060031901126101295760043590602435906044356001600160a01b03811681036101295790565b6000546001600160a01b0316330361063957565b63118cdaa760e01b6000523360045260246000fdfea164736f6c634300081b000a",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
